@@ -60,9 +60,9 @@ if generate:
     # === Draw Details on Bill Table Row ===
     y_row = 470  # vertical Y position for the row inside the table
 
-    draw.text((90, y_row), name, fill="blue", font=font_bold)  # Name
-    draw.text((230, y_row), room_no, fill="cornflowerblue", font=font_light)  # Room No.
-    draw.text((340, y_row), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
+    draw.text((90, 800), name, fill="blue", font=font_bold)  # Name
+    draw.text((230, 800), room_no, fill="cornflowerblue", font=font_light)  # Room No.
+    draw.text((485, 800), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
     draw.text((785, 800), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
     draw.text((990, 800), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Amount
 
