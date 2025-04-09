@@ -45,7 +45,8 @@ def draw_wrapped_text(draw, text, font, x, y, max_width, fill="black", line_spac
 
     for word in words:
         test_line = f"{current_line} {word}".strip()
-        w, _ = font.getsize(test_line)
+        bbox = font.getbbox(test_line)
+        w = bbox[2] - bbox[0]
         if w <= max_width:
             current_line = test_line
         else:
