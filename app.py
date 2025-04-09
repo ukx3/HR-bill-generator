@@ -49,7 +49,7 @@ if generate:
 
     # Insert top right date
     today_str = datetime.date.today().strftime("%d %B, %Y")
-    draw.text((950, 440), today_str, fill="blue", font=font_mini)
+    draw.text((950, 443), today_str, fill="blue", font=font_mini)
 
     # Format check-in and check-out
     ci = format_datetime(checkin_date, checkin_time, checkin_ampm)
