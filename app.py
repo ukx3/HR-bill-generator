@@ -69,7 +69,7 @@ if generate:
     co_str = checkout_date.strftime("%d %b %Y") + f" @ {checkout_time.strftime('%I:%M %p')}"
 
     c.drawString(50, 800, name)
-    c.drawString(440, 2000, room_no)
+    c.drawString(440, 1500, room_no)
     c.drawString(580, 800, ci_str)
     c.drawString(783, 800, co_str)
     c.drawString(800, 990, f"Rs. {amount} /-")
