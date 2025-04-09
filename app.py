@@ -80,6 +80,11 @@ if generate:
     c.drawRightString(width - 990, 1300, f"Rs. {amount} /-")
     c.drawRightString(width - 990, 1415, f"Rs. {amount} /-")
 
+     # Display the PDF preview in an iframe
+    base64_pdf = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="700px" type="application/pdf"></iframe>'
+    st.markdown("### 📄 PDF Preview", unsafe_allow_html=True)
+    st.markdown(pdf_display, unsafe_allow_html=True)
     # Save PDF
     c.showPage()
     c.save()
@@ -87,9 +92,5 @@ if generate:
 
     st.success("✅ PDF Generated Successfully!")
     st.download_button("📥 Download PDF", data=buffer.getvalue(), file_name="hotel_bill.pdf", mime="application/pdf")
-    # Display the PDF preview in an iframe
-    base64_pdf = base64.b64encode(buffer.getvalue()).decode('utf-8')
-    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="700px" type="application/pdf"></iframe>'
-    st.markdown("### 📄 PDF Preview", unsafe_allow_html=True)
-    st.markdown(pdf_display, unsafe_allow_html=True)
+   
 
