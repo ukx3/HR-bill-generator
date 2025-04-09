@@ -51,9 +51,10 @@ if st.button("Generate Bill"):
     draw = ImageDraw.Draw(image)
 
     font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-    font_big = ImageFont.truetype(font_path, 26)
-    font_mid = ImageFont.truetype(font_path, 22)
-    font_small = ImageFont.truetype(font_path, 18)
+    font_bold = ImageFont.truetype(font_path, 26)
+    font_light = ImageFont.truetype(font_path, 22)
+    font_mini = ImageFont.truetype(font_path, 18)
+
 
     today_str = datetime.date.today().strftime("%d %B, %Y")
     ci_str = checkin_date.strftime("%d %b %Y") + f" @ {checkin_time.strftime('%I:%M %p')}"
