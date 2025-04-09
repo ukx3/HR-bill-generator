@@ -37,15 +37,18 @@ if st.button("Generate Bill"):
     ci_str = checkin_date.strftime("%d %b %Y") + f" @ {checkin_time.strftime('%I:%M %p')}"
     co_str = checkout_date.strftime("%d %b %Y") + f" @ {checkout_time.strftime('%I:%M %p')}"
 
-    # Draw on image (positions adjusted to fit template layout)
-    draw.text((950, 447), today_str, font=font_small, fill="blue")
-    draw.text((200, 800), name, font=font_big, fill="blue")
-    draw.text((439, 800), room_no, font=font_mid, fill="teal")
-    draw.text((580, 800), ci_str, font=font_small, fill="black")
-    draw.text((783, 800), co_str, font=font_small, fill="black")
-    draw.text((990, 800), f"Rs. {amount} /-", font=font_small, fill="blue")
-    draw.text((990, 1300), f"Rs. {amount} /-", font=font_small, fill="blue")
-    draw.text((990, 1415), f"Rs. {amount} /-", font=font_small, fill="blue")
+     # === Draw Details on Bill Table Row ===
+    y_row = 470  # vertical Y position for the row inside the table
+
+    draw_wrapped_text_centered(draw, name, font_bold, x_left=145, max_width=225, y=800, fill="blue") # Name
+    draw.text((440, 800), room_no, fill="cornflowerblue", font=font_light)  # Room No.
+    draw.text((580, 800), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
+    draw.text((783, 800), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
+    draw.text((990, 800), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Amount
+
+    # === Subtotal and Total at Bottom Right ===
+    draw.text((990, 1300), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Subtotal
+    draw.text((990, 1415), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Total
 
     st.image(image, caption="🧾 Bill Preview", use_column_width=True)
 
