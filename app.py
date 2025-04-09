@@ -1,10 +1,11 @@
 import streamlit as st
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.colors import blue, black, HexColor
+from reportlab.lib.colors import black, HexColor
 from reportlab.lib.utils import ImageReader
 import datetime
 import io
+from PIL import Image
 
 st.set_page_config(page_title="Hotel Bill PDF Generator")
 st.title("Hotel Rameshwar Inn - PDF Bill Generator")
@@ -19,8 +20,8 @@ checkin_time = st.time_input("Check-in Time")
 checkout_date = st.date_input("Check-out Date")
 checkout_time = st.time_input("Check-out Time")
 
-# Upload background image
-bg_image = st.file_uploader("Upload your background template (PNG)", type=["png"])
+# Use fixed template
+template_path = "image.png"  # Ensure this file is in your app directory
 
 generate = st.button("Generate PDF Bill")
 
@@ -29,10 +30,12 @@ if generate:
     c = canvas.Canvas(buffer, pagesize=A4)
     width, height = A4
 
-    # Optional: Draw background image
-    if bg_image:
-        bg = ImageReader(bg_image)
+    # Draw background image
+    try:
+        bg = ImageReader(template_path)
         c.drawImage(bg, 0, 0, width=width, height=height)
+    except:
+        st.error("❌ Failed to load background template. Make sure 'image.png' is uploaded.")
 
     # Fonts and colors
     c.setFont("Helvetica-Bold", 20)
