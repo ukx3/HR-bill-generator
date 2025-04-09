@@ -7,7 +7,7 @@ import datetime
 import io
 from PIL import Image
 
-st.set_page_config(page_title="Hotel Bill PDF Generator")
+
 st.title("Hotel Rameshwar Inn - PDF Bill Generator")
 
 # Inputs
