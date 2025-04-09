@@ -84,7 +84,7 @@ if generate:
     y_row = 470  # vertical Y position for the row inside the table
 
     draw_wrapped_text_centered(draw, name, font_bold, x_left=200, max_width=220, y=800, fill="blue") # Name
-    draw.text((400, 800), room_no, fill="cornflowerblue", font=font_light)  # Room No.
+    draw.text((398, 800), room_no, fill="cornflowerblue", font=font_light)  # Room No.
     draw.text((580, 800), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
     draw.text((783, 800), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
     draw.text((990, 800), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Amount
