@@ -1,63 +1,63 @@
-
 import streamlit as st
 from fpdf import FPDF
-from datetime import date
+from datetime import datetime
+import os
 
 # Constants
 HOTEL_NAME = "Hotel Rameshwar Inn"
-ADDRESS = "2/2, Rambagh, Prayagraj"
-PHONE = "751-008-3444"
+HOTEL_ADDRESS = "2/2, Rambagh, Prayagraj"
+TEMPLATE_PATH = "template_bg.png"  # make sure this image is in your repo
+
+# Define custom PDF class
+class CustomPDF(FPDF):
+    def header(self):
+        # Set background image
+        self.image(TEMPLATE_PATH, x=0, y=0, w=210, h=297)
+
+    def add_bill_details(self, name, bill_date, checkin, checkout, amount):
+        self.set_font("Helvetica", size=12)
+
+        # Name
+        self.set_xy(30, 60)
+        self.cell(0, 10, f"Name: {name}", ln=False)
+
+        # Date
+        self.set_xy(30, 70)
+        self.cell(0, 10, f"Date: {bill_date}", ln=False)
+
+        # Check-in
+        self.set_xy(30, 80)
+        self.cell(0, 10, f"Check-in: {checkin}", ln=False)
+
+        # Check-out
+        self.set_xy(30, 90)
+        self.cell(0, 10, f"Check-out: {checkout}", ln=False)
+
+        # Amount
+        self.set_xy(30, 100)
+        self.cell(0, 10, f"Amount: ₹{amount}", ln=False)
 
 # Streamlit UI
-st.set_page_config(page_title="Hotel Bill Generator", layout="centered")
-st.title("🧾 Hotel Bill Generator")
-st.markdown("Generate hotel bills in the same layout as your printed receipts.")
+st.title("Hotel Bill Generator")
+st.markdown(f"**{HOTEL_NAME}**")
+st.text(HOTEL_ADDRESS)
 
-# Inputs
-name = st.text_input("Guest Name")
-room_no = st.text_input("Room Number")
-amount = st.text_input("Amount (Rs)", value="1000")
+name = st.text_input("Customer Name")
+bill_date = st.date_input("Bill Date")
+checkin = st.text_input("Check-in (dd-mm-yyyy hh:mm AM/PM)")
+checkout = st.text_input("Check-out (dd-mm-yyyy hh:mm AM/PM)")
+amount = st.text_input("Total Amount (in ₹)")
 
-# Dates
-invoice_date = st.date_input("Invoice Date", value=date.today())
-check_in_date = st.date_input("Check-In Date")
-check_in_time = st.time_input("Check-In Time")
-check_out_date = st.date_input("Check-Out Date")
-check_out_time = st.time_input("Check-Out Time")
+if st.button("Generate PDF"):
+    if not os.path.exists(TEMPLATE_PATH):
+        st.error("Template background image not found. Please upload it.")
+    else:
+        pdf = CustomPDF()
+        pdf.add_page()
+        pdf.add_bill_details(name, bill_date.strftime('%d-%m-%Y'), checkin, checkout, amount)
 
-# Generate PDF
-if st.button("Generate Bill"):
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size=12)
+        output_path = "hotel_bill.pdf"
+        pdf.output(output_path)
 
-    # Hotel info
-    pdf.set_font("Arial", 'B', size=16)
-    pdf.cell(200, 10, HOTEL_NAME, ln=True, align='C')
-    pdf.set_font("Arial", size=12)
-    pdf.cell(200, 10, ADDRESS + " | " + PHONE, ln=True, align='C')
-    pdf.ln(10)
-
-    # Invoice info
-    pdf.cell(100, 10, f"Invoice Date: {invoice_date.strftime('%d %B, %Y')}", ln=True)
-    pdf.cell(100, 10, f"Room No.: {room_no}    Name: {name}", ln=True)
-    pdf.ln(10)
-
-    # Check-in/out
-    pdf.cell(100, 10, f"Check-In: {check_in_date.strftime('%d %B, %Y')} @ {check_in_time.strftime('%I:%M %p')}", ln=True)
-    pdf.cell(100, 10, f"Check-Out: {check_out_date.strftime('%d %B, %Y')} @ {check_out_time.strftime('%I:%M %p')}", ln=True)
-    pdf.ln(10)
-
-    # Amount
-    pdf.set_font("Arial", 'B', size=14)
-    pdf.cell(100, 10, f"Total Amount: Rs. {amount} /-", ln=True)
-    pdf.ln(20)
-
-    pdf.set_font("Arial", 'I', 12)
-    pdf.cell(200, 10, "Thank You! Visit again.", ln=True, align='C')
-
-    # Save PDF
-    file_path = f"Hotel_Bill_{name.replace(' ', '_')}.pdf"
-    pdf.output(file_path)
-    with open(file_path, "rb") as f:
-        st.download_button(label="📥 Download Bill PDF", data=f, file_name=file_path, mime="application/pdf")
+        with open(output_path, "rb") as f:
+            st.download_button("Download Bill", f, file_name="hotel_bill.pdf")
