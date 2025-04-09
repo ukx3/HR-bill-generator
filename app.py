@@ -7,6 +7,28 @@ from reportlab.lib.utils import ImageReader
 import datetime
 import io
 from PIL import Image, ImageDraw, ImageFont
+# ⬇️ Paste this right here, under your last import
+def draw_wrapped_text_centered(draw, text, font, x_left, max_width, y, fill="black", line_spacing=5):
+    words = text.split()
+    lines = []
+    current_line = ""
+
+    for word in words:
+        test_line = f"{current_line} {word}".strip()
+        bbox = font.getbbox(test_line)
+        w = bbox[2] - bbox[0]
+        if w <= max_width:
+            current_line = test_line
+        else:
+            lines.append(current_line)
+            current_line = word
+    lines.append(current_line)
+
+    for i, line in enumerate(lines):
+        line_width = font.getbbox(line)[2] - font.getbbox(line)[0]
+        start_x = x_left + (max_width - line_width) / 2
+        draw.text((start_x, y + i * (font.size + line_spacing)), line, font=font, fill=fill)
+
 
 st.set_page_config(page_title="Hotel Bill PDF Generator")
 st.title("Hotel Rameshwar Inn - Bill Generator")
