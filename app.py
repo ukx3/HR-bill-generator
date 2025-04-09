@@ -36,6 +36,27 @@ checkout_ampm = st.selectbox("Check-out AM/PM", ["AM", "PM"], key="out")
 
 generate = st.button("Generate Bill")
 
+import textwrap
+
+def draw_wrapped_text(draw, text, font, x, y, max_width, fill="black", line_spacing=5):
+    words = text.split()
+    lines = []
+    current_line = ""
+
+    for word in words:
+        test_line = f"{current_line} {word}".strip()
+        w, _ = draw.textsize(test_line, font=font)
+        if w <= max_width:
+            current_line = test_line
+        else:
+            lines.append(current_line)
+            current_line = word
+    lines.append(current_line)
+
+    for i, line in enumerate(lines):
+        draw.text((x, y + i * (font.size + line_spacing)), line, font=font, fill=fill)
+
+
 if generate:
     # Load and prepare image
     image = Image.open(TEMPLATE_PATH).convert("RGB")
@@ -60,7 +81,7 @@ if generate:
     # === Draw Details on Bill Table Row ===
     y_row = 470  # vertical Y position for the row inside the table
 
-    draw.text((200, 800), name, fill="blue", font=font_bold)  # Name
+   draw_wrapped_text(draw, name, font_bold, x=200, y=800, max_width=220, fill="blue")  # Name
     draw.text((439, 800), room_no, fill="cornflowerblue", font=font_light)  # Room No.
     draw.text((580, 800), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
     draw.text((783, 800), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
