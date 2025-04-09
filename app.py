@@ -81,7 +81,8 @@ if generate:
     # === Draw Details on Bill Table Row ===
     y_row = 470  # vertical Y position for the row inside the table
 
-   draw_wrapped_text(draw, name, font_bold, x=200, y=800, max_width=220, fill="blue")
+       draw_wrapped_text(draw, name, font_bold, x=200, y=800, max_width=220, fill="blue")  # Name
+
     draw.text((439, 800), room_no, fill="cornflowerblue", font=font_light)  # Room No.
     draw.text((580, 800), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
     draw.text((783, 800), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
