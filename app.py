@@ -63,7 +63,7 @@ if generate:
     draw.text((90, y_row), name, fill="blue", font=font_bold)  # Name
     draw.text((230, y_row), room_no, fill="cornflowerblue", font=font_light)  # Room No.
     draw.text((340, y_row), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
-    draw.text((700, 800), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
+    draw.text((750, 800), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
     draw.text((990, 800), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Amount
 
     # === Subtotal and Total at Bottom Right ===
