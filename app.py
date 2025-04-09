@@ -67,8 +67,8 @@ if generate:
     draw.text((670, y_row), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Amount
 
     # === Subtotal and Total at Bottom Right ===
-    draw.text((1000, 1400), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Subtotal
-    draw.text((1000, 1450), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Total
+    draw.text((1000, 1300), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Subtotal
+    draw.text((1000, 1400), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Total
 
     # Show generated image
     st.image(image, caption="Generated Bill", use_column_width=True)
