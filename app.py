@@ -68,11 +68,11 @@ if generate:
     ci_str = checkin_date.strftime("%d %b %Y") + f" @ {checkin_time.strftime('%I:%M %p')}"
     co_str = checkout_date.strftime("%d %b %Y") + f" @ {checkout_time.strftime('%I:%M %p')}"
 
-    c.drawString(50, 800, name)
+    c.drawString(50, 450, name)
     c.drawString(440, 450, room_no)
-    c.drawString(580, 800, ci_str)
-    c.drawString(783, 800, co_str)
-    c.drawString(800, 990, f"Rs. {amount} /-")
+    c.drawString(580, 450, ci_str)
+    c.drawString(783, 450, co_str)
+    c.drawString(800, 300, f"Rs. {amount} /-")
 
     # Totals section
     c.setFont("Helvetica-Bold", 12)
