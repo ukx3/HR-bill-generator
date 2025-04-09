@@ -38,7 +38,7 @@ generate = st.button("Generate Bill")
 
 import textwrap
 
-def draw_wrapped_text(draw, text, font, x, y, max_width, fill="black", line_spacing=5):
+def draw_wrapped_text_centered(draw, text, font, x_left, max_width, y, fill="black", line_spacing=5):
     words = text.split()
     lines = []
     current_line = ""
@@ -55,8 +55,9 @@ def draw_wrapped_text(draw, text, font, x, y, max_width, fill="black", line_spac
     lines.append(current_line)
 
     for i, line in enumerate(lines):
-        draw.text((x, y + i * (font.size + line_spacing)), line, font=font, fill=fill)
-
+        line_width = font.getbbox(line)[2] - font.getbbox(line)[0]
+        start_x = x_left + (max_width - line_width) / 2
+        draw.text((start_x, y + i * (font.size + line_spacing)), line, font=font, fill=fill)
 
 if generate:
     # Load and prepare image
@@ -82,7 +83,7 @@ if generate:
     # === Draw Details on Bill Table Row ===
     y_row = 470  # vertical Y position for the row inside the table
 
-    draw_wrapped_text(draw, name, font_bold, x=200, y=800, max_width=220, fill="blue")  # Name
+    draw_wrapped_text_centered(draw, name, font_bold, x_left=200, max_width=220, y=800, fill="blue") # Name
     draw.text((439, 800), room_no, fill="cornflowerblue", font=font_light)  # Room No.
     draw.text((580, 800), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
     draw.text((783, 800), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
