@@ -61,8 +61,8 @@ if generate:
     y_row = 470  # vertical Y position for the row inside the table
 
     draw.text((200, 800), name, fill="blue", font=font_bold)  # Name
-    draw.text((330, 800), room_no, fill="cornflowerblue", font=font_light)  # Room No.
-    draw.text((583, 800), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
+    draw.text((430, 800), room_no, fill="cornflowerblue", font=font_light)  # Room No.
+    draw.text((580, 800), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
     draw.text((783, 800), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
     draw.text((990, 800), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Amount
 
