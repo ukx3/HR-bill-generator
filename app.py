@@ -1,102 +1,76 @@
 import streamlit as st
-from PIL import Image, ImageDraw, ImageFont
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.colors import blue, black, HexColor
 import datetime
 import io
 
-# Path to your background image template
-TEMPLATE_PATH = "image.png"
+st.set_page_config(page_title="Hotel Bill PDF Generator")
+st.title("Hotel Rameshwar Inn - PDF Bill Generator")
 
-# Convert selected time to datetime
-def format_datetime(date, time, am_pm):
-    hour, minute = map(int, time.split(':'))
-    if am_pm == 'PM' and hour != 12:
-        hour += 12
-    elif am_pm == 'AM' and hour == 12:
-        hour = 0
-    return datetime.datetime.combine(date, datetime.time(hour, minute))
-
-# Dropdown for time selection
-def get_time_options():
-    return [f"{h:02d}:{m:02d}" for h in range(1, 13) for m in (0, 15, 30, 45)]
-
-# Streamlit UI
-st.title("Hotel Rameshwar Inn Bill Generator")
-
+# Inputs
 name = st.text_input("Customer Name")
 room_no = st.text_input("Room Number")
 amount = st.text_input("Amount (in Rs.)")
 
 checkin_date = st.date_input("Check-in Date")
-checkin_time = st.selectbox("Check-in Time", get_time_options(), index=8)
-checkin_ampm = st.selectbox("Check-in AM/PM", ["AM", "PM"], key="in")
-
+checkin_time = st.time_input("Check-in Time")
 checkout_date = st.date_input("Check-out Date")
-checkout_time = st.selectbox("Check-out Time", get_time_options(), index=8)
-checkout_ampm = st.selectbox("Check-out AM/PM", ["AM", "PM"], key="out")
+checkout_time = st.time_input("Check-out Time")
 
-generate = st.button("Generate Bill")
-
-import textwrap
-
-def draw_wrapped_text_centered(draw, text, font, x_left, max_width, y, fill="black", line_spacing=5):
-    words = text.split()
-    lines = []
-    current_line = ""
-
-    for word in words:
-        test_line = f"{current_line} {word}".strip()
-        bbox = font.getbbox(test_line)
-        w = bbox[2] - bbox[0]
-        if w <= max_width:
-            current_line = test_line
-        else:
-            lines.append(current_line)
-            current_line = word
-    lines.append(current_line)
-
-    for i, line in enumerate(lines):
-        line_width = font.getbbox(line)[2] - font.getbbox(line)[0]
-        start_x = x_left + (max_width - line_width) / 2
-        draw.text((start_x, y + i * (font.size + line_spacing)), line, font=font, fill=fill)
+generate = st.button("Generate PDF Bill")
 
 if generate:
-    # Load and prepare image
-    image = Image.open(TEMPLATE_PATH).convert("RGB")
-    draw = ImageDraw.Draw(image)
+    buffer = io.BytesIO()
+    c = canvas.Canvas(buffer, pagesize=A4)
+    width, height = A4
 
     # Fonts
-    font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-    font_bold = ImageFont.truetype(font_path, 26)
-    font_light = ImageFont.truetype(font_path, 22)
-    font_mini = ImageFont.truetype(font_path, 20)
+    c.setFont("Helvetica-Bold", 20)
+    c.setFillColor(HexColor("#1F4E79"))
+    c.drawString(50, height - 50, "Hotel Rameshwar Inn")
 
-    # Insert top right date
+    c.setFont("Helvetica", 12)
+    c.setFillColor(black)
+    c.drawString(50, height - 80, "Civil Lines, Prayagraj - 211001")
+    c.drawString(50, height - 95, "Phone: +91 9336448018")
+
+    # Top right current date
     today_str = datetime.date.today().strftime("%d %B, %Y")
-    draw.text((950, 447), today_str, fill="blue", font=font_mini)
+    c.drawRightString(width - 50, height - 50, f"Date: {today_str}")
 
-    # Format check-in and check-out
-    ci = format_datetime(checkin_date, checkin_time, checkin_ampm)
-    co = format_datetime(checkout_date, checkout_time, checkout_ampm)
-    ci_str = ci.strftime("%d %B, %Y\n@ %I:%M %p").replace("AM", "A.M.").replace("PM", "P.M.")
-    co_str = co.strftime("%d %B, %Y\n@ %I:%M %p").replace("AM", "A.M.").replace("PM", "P.M.")
+    # Table headings
+    y_start = height - 150
+    c.setFont("Helvetica-Bold", 12)
+    c.drawString(50, y_start, "Customer Name")
+    c.drawString(200, y_start, "Room No.")
+    c.drawString(300, y_start, "Check-In")
+    c.drawString(430, y_start, "Check-Out")
+    c.drawString(550, y_start, "Amount")
 
-    # === Draw Details on Bill Table Row ===
-    y_row = 470  # vertical Y position for the row inside the table
+    # Draw the values
+    y_data = y_start - 25
+    c.setFont("Helvetica", 11)
 
-    draw_wrapped_text_centered(draw, name, font_bold, x_left=145, max_width=225, y=800, fill="blue") # Name
-    draw.text((440, 800), room_no, fill="cornflowerblue", font=font_light)  # Room No.
-    draw.text((580, 800), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
-    draw.text((783, 800), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
-    draw.text((990, 800), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Amount
+    # Convert datetime to string
+    ci_str = checkin_date.strftime("%d %b %Y") + f" @ {checkin_time.strftime('%I:%M %p')}"
+    co_str = checkout_date.strftime("%d %b %Y") + f" @ {checkout_time.strftime('%I:%M %p')}"
 
-    # === Subtotal and Total at Bottom Right ===
-    draw.text((990, 1300), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Subtotal
-    draw.text((990, 1415), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Total
+    c.drawString(50, y_data, name)
+    c.drawString(200, y_data, room_no)
+    c.drawString(300, y_data, ci_str)
+    c.drawString(430, y_data, co_str)
+    c.drawString(550, y_data, f"Rs. {amount} /-")
 
-    # Show generated image
-    st.image(image, caption="Generated Bill", use_column_width=True)
+    # Totals section
+    c.setFont("Helvetica-Bold", 12)
+    c.drawRightString(width - 50, 100, f"Subtotal: Rs. {amount} /-")
+    c.drawRightString(width - 50, 80, f"Total: Rs. {amount} /-")
 
-    # Download option
-    img_bytes = io.BytesIO()
-    image.save(img_bytes, format='PNG')
-    st.download_button("Download Bill", data=img_bytes.getvalue(), file_name="hotel_bill.png", mime="image/png")
+    # Save PDF
+    c.showPage()
+    c.save()
+    buffer.seek(0)
+
+    st.success("✅ PDF Generated Successfully!")
+    st.download_button("📥 Download PDF", data=buffer.getvalue(), file_name="hotel_bill.pdf", mime="application/pdf")
