@@ -57,11 +57,9 @@ if st.button("Generate Bill"):
 
 
     today_str = datetime.date.today().strftime("%d %B, %Y")
-   # Format check-in and check-out
-    ci = format_datetime(checkin_date, checkin_time, checkin_ampm)
-    co = format_datetime(checkout_date, checkout_time, checkout_ampm)
-    ci_str = ci.strftime("%d %B, %Y\n@ %I:%M %p").replace("AM", "A.M.").replace("PM", "P.M.")
-    co_str = co.strftime("%d %B, %Y\n@ %I:%M %p").replace("AM", "A.M.").replace("PM", "P.M.")
+# Format check-in and check-out directly
+ci_str = checkin_date.strftime("%d %B, %Y") + f"\n@ {checkin_time.strftime('%I:%M %p')}".replace("AM", "A.M.").replace("PM", "P.M.")
+co_str = checkout_date.strftime("%d %B, %Y") + f"\n@ {checkout_time.strftime('%I:%M %p')}".replace("AM", "A.M.").replace("PM", "P.M.")
 
 
      # === Draw Details on Bill Table Row ===
