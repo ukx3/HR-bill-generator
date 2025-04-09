@@ -63,12 +63,12 @@ if generate:
     draw.text((90, y_row), name, fill="blue", font=font_bold)  # Name
     draw.text((230, y_row), room_no, fill="cornflowerblue", font=font_light)  # Room No.
     draw.text((340, y_row), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
-    draw.text((500, y_row), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
+    draw.text((700, 800), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
     draw.text((990, 800), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Amount
 
     # === Subtotal and Total at Bottom Right ===
-    draw.text((1000, 1300), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Subtotal
-    draw.text((1000, 1415), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Total
+    draw.text((990, 1300), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Subtotal
+    draw.text((990, 1415), f"Rs. {amount} /-", fill="blue", font=font_mini)  # Total
 
     # Show generated image
     st.image(image, caption="Generated Bill", use_column_width=True)
