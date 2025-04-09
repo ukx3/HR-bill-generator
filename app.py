@@ -7,7 +7,7 @@ import datetime
 import io
 from PIL import Image
 
-
+st.set_page_config(page_title="Hotel Bill PDF Generator")
 st.title("Hotel Rameshwar Inn - PDF Bill Generator")
 
 # Inputs
@@ -40,7 +40,7 @@ if generate:
     # Fonts and colors
     c.setFont("Helvetica-Bold", 20)
     c.setFillColor(HexColor("#1F4E79"))
-    c.drawString(50, height - 50, "Hotel Rameshwar Inn")
+    
 
     c.setFont("Helvetica", 12)
     c.setFillColor(black)
