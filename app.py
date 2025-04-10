@@ -104,9 +104,8 @@ if st.button("Generate Bill"):
     c.setFont("Helvetica", 10)
     c.setFillColor(black)
     c.setFont("Helvetica-Bold", 10)
-    c.drawString(450, 620, "Invoice Date:")
     c.setFont("Helvetica", 10)
-    c.drawRightString(950, 790, invoice_str)
+    c.drawRightString(450, 620, invoice_str)
 
     draw_centered_text_pdf(c, name, "Helvetica", 10, x_left=70, max_width=110, y_start=480)
     c.drawString(210, 480, room_no)
