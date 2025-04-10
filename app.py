@@ -57,7 +57,7 @@ st.title("Hotel Rameshwar Inn - Bill Generator")
 name = st.text_input("Customer Name")
 room_no = st.text_input("Room Number")
 amount = st.text_input("Amount (in Rs.)")
-
+invoice_date = st.date_input("Invoice Date", value=datetime.date.today())
 checkin_date = st.date_input("Check-in Date")
 checkin_time = st.time_input("Check-in Time")
 checkout_date = st.date_input("Check-out Date")
@@ -75,7 +75,7 @@ if st.button("Generate Bill"):
     font_light = ImageFont.truetype(font_path, 22)
     font_mini = ImageFont.truetype(font_path, 18)
 
-    today_str = datetime.date.today().strftime("%d %B, %Y")
+    invoice_str = invoice_date.strftime("%d %B, %Y")
     ci_str = checkin_date.strftime("%d %B, %Y") + f"\n@ {checkin_time.strftime('%I:%M %p')}".replace("AM", "A.M.").replace("PM", "P.M.")
     co_str = checkout_date.strftime("%d %B, %Y") + f"\n@ {checkout_time.strftime('%I:%M %p')}".replace("AM", "A.M.").replace("PM", "P.M.")
 
@@ -103,7 +103,11 @@ if st.button("Generate Bill"):
 
     c.setFont("Helvetica", 10)
     c.setFillColor(black)
-    c.drawRightString(950, 790, today_str)
+    c.setFont("Helvetica-Bold", 10)
+    c.drawString(850, 790, "Invoice Date:")
+    c.setFont("Helvetica", 10)
+    c.drawRightString(950, 790, invoice_str)
+
     draw_centered_text_pdf(c, name, "Helvetica", 10, x_left=70, max_width=110, y_start=480)
     c.drawString(210, 480, room_no)
     # Break check-in and check-out into two lines
