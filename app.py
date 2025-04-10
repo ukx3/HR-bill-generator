@@ -107,19 +107,19 @@ if st.button("Generate Bill"):
     draw_centered_text_pdf(c, name, "Helvetica", 10, x_left=70, max_width=110, y_start=480)
     c.drawString(210, 480, room_no)
     # Break check-in and check-out into two lines
-ci_date_str = checkin_date.strftime("%d %B, %Y")
-ci_time_str = f"@ {checkin_time.strftime('%I:%M %p')}".replace("AM", "A.M.").replace("PM", "P.M.")
+    ci_date_str = checkin_date.strftime("%d %B, %Y")
+    ci_time_str = f"@ {checkin_time.strftime('%I:%M %p')}".replace("AM", "A.M.").replace("PM", "P.M.")
 
-co_date_str = checkout_date.strftime("%d %B, %Y")
-co_time_str = f"@ {checkout_time.strftime('%I:%M %p')}".replace("AM", "A.M.").replace("PM", "P.M.")
+    co_date_str = checkout_date.strftime("%d %B, %Y")
+    co_time_str = f"@ {checkout_time.strftime('%I:%M %p')}".replace("AM", "A.M.").replace("PM", "P.M.")
 
-# Check-in
-c.drawString(270, 485, ci_date_str)
-c.drawString(270, 470, ci_time_str)
+    # Check-in
+    c.drawString(270, 485, ci_date_str)
+    c.drawString(270, 470, ci_time_str)
 
-# Check-out
-c.drawString(370, 485, co_date_str)
-c.drawString(370, 470, co_time_str)
+    # Check-out
+    c.drawString(370, 485, co_date_str)
+    c.drawString(370, 470, co_time_str)
 
     c.drawString(470, 480, f"Rs. {amount} /-")
     c.drawString(990, 1300, f"Rs. {amount} /-")
