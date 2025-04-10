@@ -104,7 +104,7 @@ if st.button("Generate Bill"):
     c.setFont("Helvetica", 10)
     c.setFillColor(black)
     c.setFont("Helvetica-Bold", 10)
-    c.drawString(850, 790, "Invoice Date:")
+    c.drawString(450, 620, "Invoice Date:")
     c.setFont("Helvetica", 10)
     c.drawRightString(950, 790, invoice_str)
 
