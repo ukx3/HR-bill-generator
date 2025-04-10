@@ -125,8 +125,8 @@ if st.button("Generate Bill"):
     c.drawString(370, 470, co_time_str)
 
     c.drawString(470, 480, f"Rs. {amount} /-")
-    c.drawString(990, 1300, f"Rs. {amount} /-")
-    c.drawString(990, 1415, f"Rs. {amount} /-")
+    c.drawString(220, 460, f"Rs. {amount} /-")
+    c.drawString(220, 170, f"Rs. {amount} /-")
 
     c.save()
     buffer.seek(0)
