@@ -106,9 +106,9 @@ if st.button("Generate Bill"):
     c.drawRightString(950, 790, today_str)
     draw_centered_text_pdf(c, name, "Helvetica", 10, x_left=70, max_width=110, y_start=480)
     c.drawString(210, 480, room_no)
-    c.drawString(270, 800, ci_str)
-    c.drawString(370, 800, co_str)
-    c.drawString(470, 800, f"Rs. {amount} /-")
+    c.drawString(270, 480, ci_str)
+    c.drawString(370, 480, co_str)
+    c.drawString(470, 480, f"Rs. {amount} /-")
     c.drawString(990, 1300, f"Rs. {amount} /-")
     c.drawString(990, 1415, f"Rs. {amount} /-")
 
