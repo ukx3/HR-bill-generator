@@ -66,6 +66,31 @@ if st.button("Generate Bill"):
     y_row = 470  # vertical Y position for the row inside the table
 
     draw_wrapped_text_centered(draw, name, font_bold, x_left=145, max_width=225, y=800, fill="blue") # Name
+    from reportlab.pdfbase.pdfmetrics import stringWidth
+
+def draw_centered_text_pdf(c, text, font_name, font_size, x_left, max_width, y_start, line_spacing=2):
+    words = text.split()
+    lines = []
+    current_line = ""
+
+    for word in words:
+        test_line = f"{current_line} {word}".strip()
+        line_width = stringWidth(test_line, font_name, font_size)
+        if line_width <= max_width:
+            current_line = test_line
+        else:
+            lines.append(current_line)
+            current_line = word
+    lines.append(current_line)
+
+    # Draw each line centered in the given width
+    for i, line in enumerate(lines):
+        line_width = stringWidth(line, font_name, font_size)
+        x = x_left + (max_width - line_width) / 2
+        y = y_start - i * (font_size + line_spacing)
+        c.setFont(font_name, font_size)
+        c.drawString(x, y, line)
+
     draw.text((440, 800), room_no, fill="cornflowerblue", font=font_light)  # Room No.
     draw.text((580, 800), ci_str, fill="cornflowerblue", font=font_mini)  # Check-in
     draw.text((783, 800), co_str, fill="cornflowerblue", font=font_mini)  # Check-out
@@ -92,7 +117,7 @@ if st.button("Generate Bill"):
     c.setFont("Helvetica", 10)
     c.setFillColor(black)
     c.drawRightString(950, 790, today_str)
-    c.drawString(70, 480, name)
+    draw_centered_text_pdf(c, name, "Helvetica", 10, x_left=110, max_width=225, y_start=480)
     c.drawString(200, 480, room_no)
     c.drawString(580, 800, ci_str)
     c.drawString(783, 800, co_str)
