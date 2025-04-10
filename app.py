@@ -93,7 +93,7 @@ if st.button("Generate Bill"):
     c.setFillColor(black)
     c.drawRightString(950, 790, today_str)
     c.drawString(200, 800, name)
-    c.drawString(200, 360, room_no)
+    c.drawString(200, 200, room_no)
     c.drawString(580, 800, ci_str)
     c.drawString(783, 800, co_str)
     c.drawString(990, 800, f"Rs. {amount} /-")
