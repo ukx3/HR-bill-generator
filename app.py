@@ -59,9 +59,18 @@ room_no = st.text_input("Room Number")
 amount = st.text_input("Amount (in Rs.)")
 invoice_date = st.date_input("Invoice Date", value=datetime.date.today())
 checkin_date = st.date_input("Check-in Date")
-checkin_time = st.time_input("Check-in Time")
+checkin_hour = st.selectbox("Check-in Hour", list(range(1, 13)), index=10)
+checkin_minute = st.selectbox("Check-in Minute", ["00", "15", "30", "45"])
+checkin_ampm = st.selectbox("Check-in AM/PM", ["AM", "PM"])
+checkin_hour_24 = checkin_hour % 12 + (12 if checkin_ampm == "PM" else 0)
+checkin_time = datetime.time(checkin_hour_24, int(checkin_minute))
 checkout_date = st.date_input("Check-out Date")
-checkout_time = st.time_input("Check-out Time")
+# Check-out
+checkout_hour = st.selectbox("Check-out Hour", list(range(1, 13)), index=10)
+checkout_minute = st.selectbox("Check-out Minute", ["00", "15", "30", "45"])
+checkout_ampm = st.selectbox("Check-out AM/PM", ["AM", "PM"])
+checkout_hour_24 = checkout_hour % 12 + (12 if checkout_ampm == "PM" else 0)
+checkout_time = datetime.time(checkout_hour_24, int(checkout_minute))
 
 template_path = "image.png"  # Ensure this image is in your app folder
 
