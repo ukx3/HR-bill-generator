@@ -59,7 +59,7 @@ room_no = st.text_input("Room Number")
 amount = st.text_input("Amount (in Rs.)")
 invoice_date = st.date_input("Invoice Date", value=datetime.date.today())
 checkin_date = st.date_input("Check-in Date")
-Time dropdowns: hour:minute + AM/PM separately
+#Time dropdowns: hour:minute + AM/PM separately
 time_options = [f"{h:02d}:{m:02d}" for h in range(1, 13) for m in (0, 15, 30, 45)]
 checkin_time_str = st.selectbox("Check-in Time", time_options, index=32)  # default 08:00
 checkin_ampm = st.selectbox("Check-in AM/PM", ["AM", "PM"])
