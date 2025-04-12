@@ -59,21 +59,23 @@ room_no = st.text_input("Room Number")
 amount = st.text_input("Amount (in Rs.)")
 invoice_date = st.date_input("Invoice Date", value=datetime.date.today())
 checkin_date = st.date_input("Check-in Date")
-def get_time_options():
-    return [f"{hour:02d}:{minute:02d} {ampm}"
-            for hour in range(1, 13)
-            for minute in (0, 15, 30, 45)
-            for ampm in ["AM", "PM"]]
+d# Time dropdowns: hour:minute + AM/PM separately
+time_options = [f"{h:02d}:{m:02d}" for h in range(1, 13) for m in (0, 15, 30, 45)]
+checkin_time_str = st.selectbox("Check-in Time", time_options, index=32)  # default 08:00
+checkin_ampm = st.selectbox("Check-in AM/PM", ["AM", "PM"])
 
-def parse_12hr_time(tstr):
-    return datetime.datetime.strptime(tstr, "%I:%M %p").time()
+checkin_hour, checkin_minute = map(int, checkin_time_str.split(":"))
+checkin_hour_24 = checkin_hour % 12 + (12 if checkin_ampm == "PM" else 0)
+checkin_time = datetime.time(checkin_hour_24, checkin_minute)
 
-checkin_str = st.selectbox("Check-in Time", get_time_options(), index=32)  # default 08:00 AM
-checkin_time = parse_12hr_time(checkin_str)
 checkout_date = st.date_input("Check-out Date")
 # Check-out
-checkout_str = st.selectbox("Check-out Time", get_time_options(), index=36)  # default 09:00 AM
-checkout_time = parse_12hr_time(checkout_str)
+checkout_time_str = st.selectbox("Check-out Time", time_options, index=36)  # default 09:00
+checkout_ampm = st.selectbox("Check-out AM/PM", ["AM", "PM"])
+
+checkout_hour, checkout_minute = map(int, checkout_time_str.split(":"))
+checkout_hour_24 = checkout_hour % 12 + (12 if checkout_ampm == "PM" else 0)
+checkout_time = datetime.time(checkout_hour_24, checkout_minute)
 
 template_path = "image.png"  # Ensure this image is in your app folder
 
