@@ -90,7 +90,7 @@ if st.button("Generate Bill"):
     font_mini = ImageFont.truetype(font_path, 18)
 
     invoice_str = invoice_date.strftime("%d %B, %Y")
-    draw.text((530, 620), invoice_str, fill="blue", font=font_mini)
+    draw.text((980, 420), invoice_str, fill="blue", font=font_mini)
     ci_str = checkin_date.strftime("%d %B, %Y") + f"\n@ {checkin_time.strftime('%I:%M %p')}".replace("AM", "A.M.").replace("PM", "P.M.")
     co_str = checkout_date.strftime("%d %B, %Y") + f"\n@ {checkout_time.strftime('%I:%M %p')}".replace("AM", "A.M.").replace("PM", "P.M.")
 
